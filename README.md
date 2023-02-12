@@ -14,14 +14,15 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 ## Database from default postgre to sqlite 
 
 Use that:
+```py
 
-$ DATABASES = {
- $   'default': {
-  $      'ENGINE': 'django.db.backends.sqlite3',
-   $     'NAME': BASE_DIR / 'db.sqlite3',
-    $}
-$}
-
+ DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+```
 
 In project(share)/contrib/sites/migrations/0003_set_site_domain_and_name.py
 
