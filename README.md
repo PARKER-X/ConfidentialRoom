@@ -16,11 +16,11 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 Use that:
 
 $ DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+ $   'default': {
+  $      'ENGINE': 'django.db.backends.sqlite3',
+   $     'NAME': BASE_DIR / 'db.sqlite3',
+    $}
+$}
 
 
 In project(share)/contrib/sites/migrations/0003_set_site_domain_and_name.py
