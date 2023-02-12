@@ -15,7 +15,7 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 
 Use that:
 
-DATABASES = {
+$ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -27,7 +27,7 @@ In project(share)/contrib/sites/migrations/0003_set_site_domain_and_name.py
 
 Use that:
 
-if (created
+$ if (created
         and not "ENGINE" in settings.DATABASES["default"]
         or settings.DATABASES["default"]["ENGINE"] != "django.db.backends.sqlite3"):
         # We provided the ID explicitly when creating the Site entry, therefore the DB
