@@ -7,7 +7,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.utils.translation import gettext  as _
-
+from django.urls import reverse
 
 
 User = get_user_model()
@@ -26,6 +26,8 @@ class Circle(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("circle-detail", kwargs={"pk": self.pk})
 
     @property
     def ConfidentialRooms(self):
@@ -83,7 +85,7 @@ class ConfidentialRoom(models.Model):
 
 
     def __str__(self) -> str:
-        return self.user.display_name
+        return self.user.name
 
 
     def get_activity_count(self, circle = None):

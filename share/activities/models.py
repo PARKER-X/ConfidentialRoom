@@ -12,6 +12,8 @@ from django.urls import reverse
 
 
 
+from circles.models import Circle
+
 
 User = get_user_model()
 
@@ -50,6 +52,7 @@ class Activity(models.Model):
         blank=True,
     )
 
+    circle = models.ForeignKey(Circle,related_name="activities" ,on_delete=models.CASCADE ,null=True)
     participants = models.ManyToManyField(User, related_name="activities")
 
     done = models.BooleanField(default=False)
