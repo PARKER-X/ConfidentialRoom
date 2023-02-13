@@ -81,6 +81,8 @@ DJANGO_APPS = [
     "django.contrib.admin",
     "django.forms",
     "activities",
+    "circles",
+    'easy_thumbnails',
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",

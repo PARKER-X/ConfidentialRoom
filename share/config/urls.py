@@ -40,7 +40,14 @@ if settings.DEBUG:
         ),
         path("500/", default_views.server_error),
 
+
+        # Import Apps
+
+        # Activities App
         path('activities/', include('activities.urls')),
+
+        # Circles App
+        path('circles/', include('circles.urls')),
     ]
     if "debug_toolbar" in settings.INSTALLED_APPS:
         import debug_toolbar
