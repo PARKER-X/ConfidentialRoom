@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+        <div class="fw-bold">
+            {{ applicant.user.display_name }}
+        </div>
+        <small class="text-muted">
+            {% if applicant.user.last_login %}
+                {% blocktranslate trimmed with last_login_timesince=applicant.user.last_login|timesince %}
+                    Last seen {{ last_login_timesince }} ago
+                {% endblocktranslate %}
+            {% else %}
+                {% translate "Not yet seen" %}
+            {% endif %}
+        </small>
+    </div>

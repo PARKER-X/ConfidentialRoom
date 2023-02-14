@@ -1,13 +1,15 @@
 # Django Import 
-from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.shortcuts import render,redirect
+from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,Http404
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.core.paginator import EmptyPage, PageNotAnInteger
 from django.core.paginator import Paginator
+from django.utils.translation import gettext as _
 
 
 
@@ -74,7 +76,7 @@ class CircleDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
 
         # Invitation URL
         circle_id = context["circle"].id
-        invitation_path = reverse("circle-join", kwargs={"circle-id":circle_id})
+        invitation_path = reverse("circle-join", kwargs={"circle_id":circle_id})
         invitation_url = self.request.build_absolute_uri(invitation_path)
 
         context["invitation_url"] = invitation_url
@@ -101,4 +103,71 @@ class  CircleListView(ListView):
     template_name = "circles/circle_list.html"
 
 
+
+def join_as_confidential(request,circle_id):
+    if request.user.is_authenticated:
+        try:
+            circle = Circle.objects.get(pk=circle_id)
+        except Circle.DoesNotExist:
+            message = _("Could not found circle at the requested url")
+            raise Http404(message)
+        
+
+        # Redirect to circle page if user is already in confidential room
+        if ConfidentialRoom.objects.filter(
+            circle = circle_id,
+            user = request.user,
+        ).exists():
+            return redirect(circle)
+        
+
+        # Show "request received" if user has already submitted a join request
+        if JoinRequest.objects.filter(
+            circle = circle_id,
+            user = request.user,
+        ).exists():
+            return render(request,"circles/circle_join_received.html")
+
+        # Handle Join Request
+        if request.method == "POST":
+            join_request = JoinRequest(
+                circle=circle,
+                user = request.user,
+            )
+            join_request.save()
+            return render(request, "circles/circle_join_received.html")
+
+        # Show join by default
+        return render(request, "circles/circle_join.html")
+
+    # Show login/register buttons by default
+    return render(request, "circles/login_register.html") 
+
+
+
+
+def JoinRequestUpdateView(View):
+    def get(self, request,circle_id, join_request_id, *args, **kwargs):
+        circle = Circle.objects.get(id=circle_id)
+
+        # Only organizer can update join requests
+        if request.user not in circle.organizers:
+            raise PermissionDenied()
+        else:
+            join_request  =  JoinRequest.objects.get(id = join_request_id,circle=circle)
+
+            join_request_status = request.GET["status"]
+
+
+            # If approved
+            if join_request_status == "APPROVED":
+                ConfidentialRoom = ConfidentialRoom(circle=circle,user = join_request.user,)
+                ConfidentialRoom.save()
+
+            
+            # Always delete the join reguest once they handled by organizer
+            join_request.delete()
+
+
+            return redirect(circle)
 

@@ -9,4 +9,31 @@
     {{circle}}
 </h1>
 
+
+<div class="col-md-5 mt-2">
+    <!-- Person photo -->
+    {% if circle.photo %}
+        <img
+            src="{{ circle.photo|thumbnail_url:'square_thumbnail_400' }}"
+            class="img-fluid img-thumbnail mb-3"
+            alt='{% translate "Care group photo" %}' />
+    {% endif %}
+
+    
+    {% if user in circle.organizers %}
+    {% if circle.pending_join_requests.all %}
+        <h2>
+            <i class="bi bi-people"></i>
+            {% translate "Applicants" %}
+        </h2>
+
+        <ul class="list-group">
+            {% for applicant in circle.pending_join_requests.all %}
+                {% include "circles/circle_applicant.html" %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
+</div>
+
 {% endblock content %}

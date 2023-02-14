@@ -289,3 +289,15 @@ SOCIALACCOUNT_FORMS = {"signup": "share.users.forms.UserSocialSignupForm"}
 # SITE_ID = 1
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+
+# Thumbnail
+THUMBNAIL_DEBUG = True
+
+
+THUMBNAIL_ALIASES = {
+    "": {
+        "square_thumbnail_200": {"size": (200, 200), "crop": "smart"},
+        "square_thumbnail_400": {"size": (400, 400), "crop": "smart"},
+    },
+}
