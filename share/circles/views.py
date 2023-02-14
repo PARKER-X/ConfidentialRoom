@@ -173,3 +173,37 @@ def JoinRequestUpdateView(View):
 
 
 
+class CircleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Circle
+    fields = [
+        "name",
+        "photo",
+    ]
+
+    def test_func(self,*args, **kwargs):
+        # Only organizer has power to update the circle detail
+        circle = Circle.objects.get(id =self.kwargs["pk"])
+        user = self.request.user
+
+
+        # Check user is organizer or not
+        user_can_update_circle = user in circle.organizers
+
+        return user_can_update_circle
+
+    def get_form(self, form_class=None):
+        form =  super().get_form(form_class)
+        form.fields["name"].widget.attrs.update({"autofocus":"autofocus"})
+
+        return form
+
+    def form_valid(self,form):
+        # Used to delete old photos and thumbnails
+        circle = Circle.objects.get(id = self.kwargs["pk"])
+        circle.photo.delete()
+        circle = form.save()
+
+        return HttpResponseRedirect(circle.get_absolute_url())
+
+
+    

@@ -5,10 +5,60 @@
 
 {% block content %}
 
+
+{% comment %} Circle Name {% endcomment %}
+
 <h1>
     {{circle}}
+
+    {% if circle.ConfidentialRoom_score %}
+    <small>
+        <span class="badge bg-primary rounded-pill" data-bs-toggle="tooltip" data-bs-placement="left" title="{% translate 'Companionship score' %}">
+            {{ circle.ConfidentialRoom_score }}
+            
+        </span>
+    </small>
+{% endif %}
+
+
+
+{% comment %} organizers {% endcomment %}
+
+{% if user in circle.organizers %}
+
+<a class="btn btn-outline-primary btn-sm rounded-circle"
+href="{% url 'circle-update' circle.id %}"
+title = "{% translate 'Edit Circle' %}"
+> 
+<i class"bi bi-pencil"> Edit </i>
+
+</a>
+{% endif %}
+
 </h1>
 
+<div class="row">
+    <div class="col col-md-7">
+        <h2>
+            <i class="bi bi-calendar3"></i>
+            {% translate "Upcoming activities" %}
+            <button
+                type="button"
+                class="btn btn-sm btn-outline-primary rounded-circle"
+                data-bs-toggle="modal"
+                data-bs-target="#add-activity-modal"
+                title="{% translate 'Add activity' %}">
+                <i class="bi bi-plus-lg">Add activity</i>
+            </button>
+        </h2>
+        {% if circle.upcoming_activities.count %}
+            {% for activity in activity_page.object_list %}
+                {% include "circles/circle_activity.html" with activity=activity form=add_activity_form %}
+            {% endfor %}
+        {% else %}
+            <p>{% translate "No activities found." %}</p>
+        {% endif %}
+    </div>
 
 <div class="col-md-5 mt-2">
     

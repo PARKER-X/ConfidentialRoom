@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% if object %}
+
+<h1>
+    {% translate "Edit Circle" %}
+</h1>
+
+{% else %}
+
+<h1>
+    {% translate "Add Circle" %}
+</h1>
+
+
+{% endif %}
+
+
+<form action = "" method="POST" enctype = "multipart/form-data">
+    {% csrf_token %}
+
+    {{form|crispy}}
+
+    {% if object %}
+    
+    <button type="submit" class="btn btn-success">
+        {% translate "update" %}
+    </button>
+
+    {% else %}
+
+    <button type="submit" class="btn btn-success">
+        {% translate "Add" %}
+    </button>
+
+    {% endif %}
+
+
+
+</form>
+
+{% endblock content %}
