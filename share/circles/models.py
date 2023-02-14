@@ -10,6 +10,9 @@ from django.utils.translation import gettext  as _
 from django.urls import reverse
 
 
+
+
+# This method will return the currently active user model
 User = get_user_model()
 
 
@@ -20,6 +23,8 @@ class Circle(models.Model):
     photo = ThumbnailerImageField(upload_to="circle_photos",blank = True)
 
 
+
+    # The verbose_name_plural is a human readable name you give to the objects
     class Meta:
         verbose_name_plural = _("circles")
 
