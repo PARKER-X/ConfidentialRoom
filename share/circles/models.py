@@ -54,6 +54,15 @@ class Circle(models.Model):
 
 
     @property
+    def upcoming_activities(self):
+        """Return a list of activities that happen today or later."""
+        today = datetime.today()
+
+        return self.activities.filter(activity_date__gte=today)
+
+
+
+    @property
     def annotated_ConfidentialRooms(self):
         # Return a ConfidentialRoom list annotated with activity count for current person
 
@@ -76,7 +85,7 @@ class Circle(models.Model):
     
 
     @property
-    def pending_join_request(self):
+    def pending_join_requests(self):
         # Get the join request who have not been approved or rejected
         return self.join_requests.filter(status = "PENDING")
 
@@ -93,7 +102,7 @@ class ConfidentialRoom(models.Model):
         return self.user.name
 
 
-    def get_activity_count(self, circle = None):
+    def get_activity_count(self, circle=None):
         # Return a count of activities between the user and circle
         return self.user.get_activity_count(circle= self.circle)
 

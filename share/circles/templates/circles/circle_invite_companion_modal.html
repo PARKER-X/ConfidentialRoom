@@ -1,0 +1,38 @@
+{% load i18n %}
+
+<!-- Add Member modal -->
+<div class="modal fade" id="add-companion-modal" tabindex="-1" aria-labelledby="add-companion-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-companion-modal-label">
+                    {% translate "Add companion" %}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% translate 'Close' %}"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    {% translate "Invite a new companion by following the steps below." %}</p>
+
+                <ol>
+                    <li>
+                        {% translate "Copy the invitation link below." %}
+                    </li>
+                    <li>
+                        {% translate "Send the invitation link to the desired companion." %}
+                    </li>
+                    <li>
+                        {% translate "Approve their companionship request once they follow the link." %}
+                    </li>
+                </ol>
+
+                <div class="input-group mb-3">
+                    <input class="form-control" type="text" value="{{ invitation_url }}" aria-label='{% translate "Invitation link" %}' id="invitation-link" readonly>
+                    <button class="btn btn-outline-success" type="button" id="copy-invitation-button" data-clipboard-target="#invitation-link">
+                        {% translate "Copy" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

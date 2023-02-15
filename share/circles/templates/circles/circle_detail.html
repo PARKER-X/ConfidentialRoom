@@ -71,8 +71,34 @@ title = "{% translate 'Edit Circle' %}"
             alt='{% translate "Care group photo" %}' />
     {% endif %}
 
+
+{% comment %}     
+            <!-- Annotated companions list -->
+            <h2>
+                <i class="bi bi-people"></i>
+                {% translate "Companions" %}
+                {% if request.user in circle.organizers.all %}
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-outline-primary rounded-circle"
+                        data-bs-toggle="modal"
+                        data-bs-target="#add-companion-modal"
+                        title="{% translate 'Add Companion' %}">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                {% endif %}
+            </h2> {% endcomment %}
+
+            {% comment %} <ul class="list-group mb-3">
+                {% for companion in circle.annotated_ConfidentialRooms %}
+                    {% include "circles/circle_companion.html" %}
+                {% endfor %}
+            </ul> {% endcomment %}
+
+            {% comment %} Applicants List {% endcomment %}
     
     {% if user in circle.organizers %}
+    
     {% if circle.pending_join_requests.all %}
         <h2>
             <i class="bi bi-people"></i>
@@ -88,4 +114,27 @@ title = "{% translate 'Edit Circle' %}"
 {% endif %}
 </div>
 
+{% include "circles/circle_add_activity_modal.html" %}
+
+{% include "circles/circle_invite_companion_modal.html" %}
+
 {% endblock content %}
+
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock extra_css %}
+
+{% block extra_js %}
+    <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script type="text/javascript">
+        var clipboard = new ClipboardJS('#copy-invitation-button');
+
+        // TODO: indicate to user that the invitation code was copied,
+        // E.g., via a tooltip or toast
+
+        flatpickr('#id_activity_date');
+    </script>
+{% endblock extra_js %}

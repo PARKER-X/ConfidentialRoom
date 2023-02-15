@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto flex-column">
+        <span class="badge bg-primary rounded-pill" data-bs-toggle="tooltip" data-bs-placement="left" title="{% translate 'Companionship score' %}">
+            
+        </span>
+
+        <span class="fw-bold">
+            {{ companion }}
+        </span>
+
+        {% if companion.is_organizer %}
+            <i class="bi bi-magic" data-bs-toggle="tooltip" data-bs-placement="left" title='{% translate "Group coordinator" %}'></i>
+        {% endif %}
+    </div>
+
+    <!-- only organizers can remove companions -->
+    {% if user in circle.organizers %}
+        <!-- circle (organizer) should not be able to remove self -->
+        {% if user != companion.user %}
+            <a
+                href="{% url 'delete-companion' circle.id companion.id %}"
+                class="btn btn-sm btn-outline-danger rounded-circle"
+                title='{% translate "Remove companion" %}'>
+
+                <i class="bi bi-dash"></i>
+            </a>
+        {% endif %}
+    {% endif %}
+</li>

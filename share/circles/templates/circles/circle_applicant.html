@@ -3,7 +3,9 @@
 <li class="list-group-item d-flex justify-content-between align-items-start">
     <div class="ms-2 me-auto">
         <div class="fw-bold">
-            {{ applicant.user.display_name }}
+            {{ applicant.user }}
+            {% comment %} {{ applicant.user.name }} {% endcomment %}
+            
         </div>
         <small class="text-muted">
             {% if applicant.user.last_login %}
@@ -15,3 +17,4 @@
             {% endif %}
         </small>
     </div>
+    
