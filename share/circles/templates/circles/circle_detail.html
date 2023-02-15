@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% load i18n %}
 {% load thumbnail %}
@@ -6,100 +7,112 @@
 {% block content %}
 
 
-{% comment %} Circle Name {% endcomment %}
+{% comment %} Circle == Room . A room for similar minds {% endcomment %}
 
+
+{% comment %} Circle {% endcomment %}
 <h1>
     {{circle}}
 
     {% if circle.ConfidentialRoom_score %}
     <small>
-        <span class="badge bg-primary rounded-pill" data-bs-toggle="tooltip" data-bs-placement="left" title="{% translate 'Companionship score' %}">
+        <span class="badge bg-primary rounded-pill" data-bs-toggle="tooltip" data-bs-placement="left"
+            title="{% translate 'Companionship score' %}">
             {{ circle.ConfidentialRoom_score }}
-            
+
         </span>
     </small>
-{% endif %}
-
-
-
-{% comment %} organizers {% endcomment %}
-
-{% if user in circle.organizers %}
-
-<a class="btn btn-outline-primary btn-sm rounded-circle"
-href="{% url 'circle-update' circle.id %}"
-title = "{% translate 'Edit Circle' %}"
-> 
-<i class"bi bi-pencil"> Edit </i>
-
-</a>
-{% endif %}
-
-</h1>
-
-<div class="row">
-    <div class="col col-md-7">
-        <h2>
-            <i class="bi bi-calendar3"></i>
-            {% translate "Upcoming activities" %}
-            <button
-                type="button"
-                class="btn btn-sm btn-outline-primary rounded-circle"
-                data-bs-toggle="modal"
-                data-bs-target="#add-activity-modal"
-                title="{% translate 'Add activity' %}">
-                <i class="bi bi-plus-lg">Add activity</i>
-            </button>
-        </h2>
-        {% if circle.upcoming_activities.count %}
-            {% for activity in activity_page.object_list %}
-                {% include "circles/circle_activity.html" with activity=activity form=add_activity_form %}
-            {% endfor %}
-        {% else %}
-            <p>{% translate "No activities found." %}</p>
-        {% endif %}
-    </div>
-
-<div class="col-md-5 mt-2">
-    
-    <!-- Person photo -->
-
-    {% if circle.photo %}
-        <img
-            src="{{ circle.photo|thumbnail_url:'square_thumbnail_400' }}"
-            class="img-fluid img-thumbnail mb-3"
-            alt='{% translate "Care group photo" %}' />
     {% endif %}
 
 
-{% comment %}     
-            <!-- Annotated companions list -->
-            <h2>
-                <i class="bi bi-people"></i>
-                {% translate "Companions" %}
-                {% if request.user in circle.organizers.all %}
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-outline-primary rounded-circle"
-                        data-bs-toggle="modal"
-                        data-bs-target="#add-companion-modal"
-                        title="{% translate 'Add Companion' %}">
-                        <i class="bi bi-plus-lg"></i>
-                    </button>
-                {% endif %}
-            </h2> {% endcomment %}
 
-            {% comment %} <ul class="list-group mb-3">
-                {% for companion in circle.annotated_ConfidentialRooms %}
-                    {% include "circles/circle_companion.html" %}
-                {% endfor %}
-            </ul> {% endcomment %}
+    {% comment %} organizers {% endcomment %}
 
-            {% comment %} Applicants List {% endcomment %}
-    
+
+
+    {% comment %} If user is creator so they have choice to edit the circle/Room {% endcomment %}
     {% if user in circle.organizers %}
+
+    <a class="btn btn-outline-primary btn-sm rounded-circle" href="{% url 'circle-update' circle.id %}"
+        title="{% translate 'Edit Circle' %}">
+        <i class"bi bi-pencil"> Edit </i>
+
+    </a>
+
+
+    {% endif %}
     
-    {% if circle.pending_join_requests.all %}
+</h1>
+
+
+{% comment %} Activity in a circle {% endcomment %}
+
+<div class="row">
+    <div class="col col-md-7">
+
+        {% comment %} Add New Activity {% endcomment %}
+        <h2>
+            <i class="bi bi-calendar3"></i>
+            {% translate "Upcoming activities" %}
+            <button type="button" class="btn btn-sm btn-outline-primary rounded-circle" data-bs-toggle="modal"
+                data-bs-target="#add-activity-modal" title="{% translate 'Add activity' %}">
+                <i class="bi bi-plus-lg">Add activity</i>
+            </button>
+        </h2>
+
+
+
+        {% comment %} List of Activities {% endcomment %}
+        {% if circle.upcoming_activities.count %}
+
+            {% for activity in activity_page.object_list %}
+
+                {% include "circles/circle_activity.html" with activity=activity form=add_activity_form %}
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>{% translate "No activities found." %}</p>
+
+        {% endif %}
+
+    </div>
+
+    
+
+    <div class="col-md-5 mt-2">
+
+        <!-- Person photo -->
+
+        {% if circle.photo %}
+        <img src="{{ circle.photo|thumbnail_url:'square_thumbnail_400' }}" class="img-fluid img-thumbnail mb-3"
+            alt='{% translate "Care group photo" %}' />
+        {% endif %}
+
+
+        
+        <!-- Annotated  list -->
+
+        {% comment %} Add New Members  {% endcomment %}
+        <h2>
+            <i class="bi bi-people"></i>
+            {% translate "ConfidentialRoom" %}
+
+            {% if request.user in circle.organizers.all %}
+            <button type="button" class="btn btn-sm btn-outline-primary rounded-circle" data-bs-toggle="modal"
+                data-bs-target="#add-companion-modal" title="{% translate 'Add Members' %}">
+                <i class="bi bi-plus-lg"> Add </i>
+            </button>
+            {% endif %}
+        </h2> 
+
+
+        {% comment %} Applicants List {% endcomment %}
+
+        {% if user in circle.organizers %}
+
+        {% if circle.pending_join_requests.all %}
         <h2>
             <i class="bi bi-people"></i>
             {% translate "Applicants" %}
@@ -110,22 +123,30 @@ title = "{% translate 'Edit Circle' %}"
                 {% include "circles/circle_applicant.html" %}
             {% endfor %}
         </ul>
-    {% endif %}
-{% endif %}
-</div>
 
-{% include "circles/circle_add_activity_modal.html" %}
-
-{% include "circles/circle_invite_companion_modal.html" %}
-
-{% endblock content %}
+        {% endif %}
+        {% endif %}
+    </div>
 
 
-{% block extra_css %}
+    {% comment %} For Add Activity in Room/Circle {% endcomment %}
+    {% include "circles/circle_add_activity_modal.html" %}
+
+
+    {% comment %} For Invitation {% endcomment %}
+    {% include "circles/circle_invite_modal.html" %}
+
+
+
+    {% endblock content %}
+
+
+    {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'bootstrap_icons/css/bootstrap_icons.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-{% endblock extra_css %}
+    {% endblock extra_css %}
 
-{% block extra_js %}
+    {% block extra_js %}
     <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -137,4 +158,4 @@ title = "{% translate 'Edit Circle' %}"
 
         flatpickr('#id_activity_date');
     </script>
-{% endblock extra_js %}
+    {% endblock extra_js %}

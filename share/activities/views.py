@@ -24,7 +24,7 @@ class ActivityCreateView(LoginRequiredMixin, UserPassesTestMixin,  CreateView):
         if circle_id:
             circle = Circle.objects.get(id=circle_id)
 
-            user_is_organizer = self.requestuser in circle.organizers
+            user_is_organizer = self.request.user in circle.organizers
             user_is_ConfidentialRoom = self.request.user in circle.ConfidentialRooms
 
             user_can_update_activity = user_is_ConfidentialRoom or user_is_organizer

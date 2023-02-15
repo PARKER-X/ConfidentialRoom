@@ -15,6 +15,7 @@
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Your stuff: Third-party CSS libraries go here -->
+    <link rel="stylesheet" href="{% static 'bootstrap_icons/css/bootstrap_icons.css' %}">
 
     <!-- This file stores project-specific CSS -->
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
@@ -51,6 +52,9 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'about' %}">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'circle-list' %}">ConfidentialRoom</a>
               </li>
               {% if request.user.is_authenticated %}
                 <li class="nav-item">

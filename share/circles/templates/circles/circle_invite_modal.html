@@ -1,28 +1,31 @@
 {% load i18n %}
 
 <!-- Add Member modal -->
+
+{% comment %} Create Invitation Url  {% endcomment %}
+
 <div class="modal fade" id="add-companion-modal" tabindex="-1" aria-labelledby="add-companion-modal-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="add-companion-modal-label">
-                    {% translate "Add companion" %}
+                    {% translate "Add Members" %}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% translate 'Close' %}"></button>
             </div>
             <div class="modal-body">
                 <p>
-                    {% translate "Invite a new companion by following the steps below." %}</p>
+                    {% translate "Invite a new member by following the steps below." %}</p>
 
                 <ol>
                     <li>
                         {% translate "Copy the invitation link below." %}
                     </li>
                     <li>
-                        {% translate "Send the invitation link to the desired companion." %}
+                        {% translate "Send the invitation link to the desired Person." %}
                     </li>
                     <li>
-                        {% translate "Approve their companionship request once they follow the link." %}
+                        {% translate "Approve their  request once they follow the link." %}
                     </li>
                 </ol>
 
