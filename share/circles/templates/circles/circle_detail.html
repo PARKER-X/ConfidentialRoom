@@ -70,6 +70,7 @@
                 {% include "circles/circle_activity.html" with activity=activity form=add_activity_form %}
 
             {% endfor %}
+            
 
         {% else %}
 
@@ -107,6 +108,11 @@
             {% endif %}
         </h2> 
 
+        <ul class="list-group mb-3">
+            {% comment %} {% for companion in circle.annotated_ConfidentialRooms %}
+                {% include "circles/circle_companion.html" %}
+            {% endfor %} {% endcomment %}
+        </ul>
 
         {% comment %} Applicants List {% endcomment %}
 

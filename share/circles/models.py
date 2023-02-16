@@ -93,13 +93,13 @@ class Circle(models.Model):
 
 class ConfidentialRoom(models.Model):
     circle = models.ForeignKey(Circle, related_name="ConfidentialRooms_through",on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name="ConfidentialRooms_through" , on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, related_name="ConfidentialRooms_through" , on_delete=models.CASCADE)
     is_organizer = models.BooleanField(default=False)
 
 
 
-    def __str__(self) -> str:
-        return self.user.name
+    def __str__(self):
+        return self.user.display_name
 
 
     def get_activity_count(self, circle=None):
