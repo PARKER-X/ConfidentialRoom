@@ -55,7 +55,7 @@
                     {% for participant in activity.participants.all %}
                         {% if user in circle.organizers %}
                             <!-- group organizers can remove other participants -->
-                            <form action="{% url 'activity-remove-participant' activity.id %}" method="post" style="display: inline;">
+                            {% comment %} <form action="{% url 'activity-remove-participant' activity.id %}" method="post" style="display: inline;">
                                 {% csrf_token %}
                                 <input type="hidden" name="user_id" value="{{ participant.id }}">
                                 <button
@@ -67,7 +67,7 @@
                                     {{ participant.display_name }}
                                     <i class="bi bi-x-lg"></i>
                                 </button>
-                            </form>
+                            </form> {% endcomment %}
                         {% elif participant.id == user.id %}
                             <!-- participant can remove self -->
                             <form action="{% url 'activity-remove-participant' activity.id %}" method="post" style="display: inline;">
@@ -258,11 +258,11 @@
                     {% translate "Are you sure you want to delete this activity?" %}
                 </p>
 
-                <form action="{% url 'activity-delete' activity.id %}" method="post">{% csrf_token %}
+                {% comment %} <form action="{% url 'activity-delete' activity.id %}" method="post">{% csrf_token %}
                     <button type="submit" class="btn btn-danger ml-auto">
                         {% translate "Delete" %}
                     </button>
-                </form>
+                </form> {% endcomment %}
             </div>
         </div>
     </div>

@@ -63,13 +63,21 @@
 
 
         {% comment %} List of Activities {% endcomment %}
-        {% if circle.upcoming_activities.count %}
+        {% if circle.upcoming_activities.count %} 
 
-            {% for activity in activity_page.object_list %}
+{{circle.upcoming_activities.count}}<br>
 
-                {% include "circles/circle_activity.html" with activity=activity form=add_activity_form %}
+{% comment %} {{circle.upcoming_activities}} {% endcomment %}
 
-            {% endfor %}
+{% for activity in circle.upcoming_activities%}
+{{activity}} <br>
+{{activity.note}} <br>
+{% include 'circles/circle_activity.html' %}
+{% endfor %}
+
+
+
+          
             
 
         {% else %}

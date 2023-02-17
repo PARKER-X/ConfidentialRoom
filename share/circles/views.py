@@ -98,8 +98,7 @@ class CircleDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
     
 
 
-class  CircleListView(ListView):
-    model = Circle
+class  CircleListView(LoginRequiredMixin, TemplateView):
     template_name = "circles/circle_list.html"
 
 

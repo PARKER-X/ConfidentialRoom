@@ -67,5 +67,25 @@ class Activity(models.Model):
     def __str__(self):
         return self.get_activity_type_display()
 
-  
+    def get_absolute_url(self):
+        return reverse("activity-detail", kwargs={"pk": self.pk})
+
+    @property
+    def icon(self):
+        return self.ActivityTypeIcons[self.activity_type].value
+
+    @property
+    def remaining_eligible_ConfidentialRooms(self):
+        """Return a QuerySet of the circle's companions who are not already activity participants."""  # noqa: E501
+        # Only care group members are eligible to participate
+        ConfidentialRooms = self.circle.ConfidentialRooms
+
+        # Get current activity participants
+        current_participants = self.participants.all()
+
+        # Exclude existing companions from care group members
+        remaining_eligible_ConfidentialRooms = ConfidentialRooms.difference(current_participants)
+
+        return remaining_eligible_ConfidentialRooms
+
 

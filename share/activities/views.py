@@ -125,7 +125,7 @@ class ActivityAddParticipantView(UserPassesTestMixin, LoginRequiredMixin, View):
             activity = Activity.objects.get(id=activity_id)
 
             user_is_organizer = self.request.user in activity.circle.organizers
-            user_is_ConfidentialRoom = self.request.user in circle.ConfidentialRooms
+            user_is_ConfidentialRoom = self.request.user in activity.circle.ConfidentialRooms
 
             user_id = self.request.POST.get("user_id", None)
             user_is_adding_self = user_id == str(self.request.user.id)
