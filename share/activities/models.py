@@ -89,3 +89,5 @@ class Activity(models.Model):
         return remaining_eligible_ConfidentialRooms
 
 
+
+

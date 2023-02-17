@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect,Http404
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
+from django.views import View
 from django.core.paginator import EmptyPage, PageNotAnInteger
 from django.core.paginator import Paginator
 from django.utils.translation import gettext as _
@@ -145,7 +146,7 @@ def join_as_confidential(request,circle_id):
 
 
 
-def JoinRequestUpdateView(View):
+class JoinRequestUpdateView(View):
     def get(self, request,circle_id, join_request_id, *args, **kwargs):
         circle = Circle.objects.get(id=circle_id)
 

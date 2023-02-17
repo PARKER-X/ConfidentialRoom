@@ -5,7 +5,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-1 fs-3 d-flex flex-column">
-                <i class="{{ activity.icon }}"></i>
+                {% comment %} <i class="{{ activity.icon }}"></i> {% endcomment %}
             </div>
             <div class="col">
                 <p class="card-title mt-1 mb-0">{{ activity }}</p>
@@ -18,7 +18,10 @@
 
                 <!-- organizer can add other eligible companions -->
                 {% if user in circle.organizers %}
-                    {% if activity.remaining_eligible_companions %}
+                
+                    {% if activity.remaining_eligible_ConfidentialRooms %}
+
+                     {{activity.remaining_eligible_ConfidentialRooms}} 
                         <button
                             type="button"
                             title="{% translate 'Add' %}"
@@ -35,6 +38,7 @@
                 {% endif %}
 
                 {% if user not in activity.participants.all %}
+                
                     <form action="{% url 'activity-add-participant' activity.id %}" method="post" style="display: inline;">
                         {% csrf_token %}
                         <input type="hidden" name="user_id" value="{{ user.id }}">
@@ -44,18 +48,19 @@
                             style="border: none;"
                             class="badge rounded-pill bg-success"
                         >
-                            <i class="bi bi-person"></i>
+                            <i class="bi bi-person">P</i>
                             {% translate 'Join' %}
-                            <i class="bi bi-plus-lg"></i>
+                            <i class="bi bi-plus-lg">L</i>
                         </button>
                     </form>
                 {% endif %}
 
                 {% if activity.participants.count %}
                     {% for participant in activity.participants.all %}
+                    {% comment %} {{participant}} {% endcomment %}
                         {% if user in circle.organizers %}
                             <!-- group organizers can remove other participants -->
-                            {% comment %} <form action="{% url 'activity-remove-participant' activity.id %}" method="post" style="display: inline;">
+                             <form action="{% url 'activity-remove-participant' activity.id %}" method="post" style="display: inline;">
                                 {% csrf_token %}
                                 <input type="hidden" name="user_id" value="{{ participant.id }}">
                                 <button
@@ -63,11 +68,12 @@
                                     title="{% translate 'Remove participant' %}"
                                     style="border: none;"
                                     class="badge rounded-pill bg-primary">
-                                    <i class="bi bi-person"></i>
+                                    <i class="bi bi-person">Remove</i>
                                     {{ participant.display_name }}
                                     <i class="bi bi-x-lg"></i>
                                 </button>
-                            </form> {% endcomment %}
+                            </form> 
+
                         {% elif participant.id == user.id %}
                             <!-- participant can remove self -->
                             <form action="{% url 'activity-remove-participant' activity.id %}" method="post" style="display: inline;">
@@ -87,7 +93,7 @@
                             <!-- display participant without remove button by default -->
                             <span class="badge rounded-pill bg-primary">
                                 <i class="bi bi-person"></i>
-                                {{ participant.display_name }}
+                                {{ participant.name }}
                             </span>
                         {% endif %}
 
@@ -106,7 +112,7 @@
                         aria-expanded="false"
                         title="{% translate 'Actions' %}"
                     >
-                        <i class="bi bi-three-dots"></i>
+                        <i class="bi bi-three-dots">Action</i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
@@ -120,15 +126,18 @@
                                 {% translate 'Edit activity' %}
                             </button>
                             {% if user in circle.organizers %}
+                            l
                                 <button
                                     type="button"
                                     title="{% translate 'Delete activity' %}"
                                     class="dropdown-item"
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete-activity-confirmation-modal-{{ activity.id }}">
-                                    <i class="bi bi-calendar-x"></i>
+                                    <i class="bi bi-calendar-x">X</i>
                                     {% translate 'Delete activity' %}
                                 </button>
+
+                                
                             {% endif %}
                         </li>
                     </ul>
@@ -140,7 +149,7 @@
                         href="{% url 'activity-set-done' activity.id %}"
                         title="{% translate 'Mark activity as complete' %}"
                         class="btn btn-sm btn-success rounded-circle">
-                        <i class="bi bi-check-lg"></i>
+                        <i class="bi bi-check-lg">Check</i>
                     </a>
                 {% else %}
                     {% translate "Done" %}
@@ -247,7 +256,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <p class="modal-title h5" id="delete-activity-participant-modal-label-{{ activity.id }}">
-                    <i class="bi bi-calendar-x"></i>
+                    <i class="bi bi-calendar-x"> Delete</i>
                     {% translate "Delete activity" %}
                 </p>
 
@@ -258,12 +267,13 @@
                     {% translate "Are you sure you want to delete this activity?" %}
                 </p>
 
-                {% comment %} <form action="{% url 'activity-delete' activity.id %}" method="post">{% csrf_token %}
+                <form action="{% url 'activity-delete' activity.id %}" method="post">{% csrf_token %}
                     <button type="submit" class="btn btn-danger ml-auto">
                         {% translate "Delete" %}
                     </button>
-                </form> {% endcomment %}
+                </form> 
             </div>
         </div>
     </div>
 </div>
+

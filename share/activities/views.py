@@ -149,3 +149,67 @@ class ActivityAddParticipantView(UserPassesTestMixin, LoginRequiredMixin, View):
             )
         )
 
+
+
+class ActivityRemoveParticipantView(LoginRequiredMixin, UserPassesTestMixin, View):
+    raise_exception = True
+
+    def test_func(self, *args, **kwargs):
+        
+        activity_id = self.kwargs.get("activity_id", None)
+
+        if activity_id:
+            activity = Activity.objects.get(id=activity_id)
+
+            user_is_not_ConfidentialRooms = self.request.user not in activity.circle.ConfidentialRooms
+
+            if user_is_not_ConfidentialRooms:
+                return False
+
+            user_is_organizer = self.request.user in activity.circle.organizers
+
+            user_id = self.request.POST.get("user_id", None)
+            user_is_removing_self = user_id == str(self.request.user.id)
+
+            user_can_remove_participant = user_is_organizer or user_is_removing_self
+
+            return user_can_remove_participant
+
+    def post(self, request, activity_id, *args, **kwargs):
+        user_id = request.POST["user_id"]
+        activity = Activity.objects.get(id=activity_id)
+
+        activity.participants.remove(user_id)
+
+        return redirect(
+            reverse(
+                "circle-detail",
+                kwargs={"pk": activity.circle.id},
+            )
+        )
+
+
+
+class ActivityDeleteView(UserPassesTestMixin, LoginRequiredMixin, View):
+    raise_exception = True
+
+    def test_func(self, *args, **kwargs):
+        """Only the circle's care organizers can delete activity"""
+        self.activity = Activity.objects.get(id=self.kwargs["activity_id"])
+
+        user_is_organizer = self.request.user in self.activity.circle.organizers
+
+        user_can_delete_activity = user_is_organizer
+
+        return user_can_delete_activity
+
+    def post(self, request, *args, **kwargs):
+        circle_id = self.activity.circle.id
+        self.activity.delete()
+
+        return redirect(
+            reverse(
+                "circle-detail",
+                kwargs={"pk": circle_id},
+            )
+        )

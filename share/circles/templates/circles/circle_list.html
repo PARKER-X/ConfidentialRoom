@@ -12,6 +12,10 @@
 <h1>
      {% translate "circles" %} 
 
+     {% comment %} {% for obj in object_list  %}
+     {{obj.name}}
+     {% endfor %} {% endcomment %}
+
      {% if not user.is_care_circle_organizer %}
      <a class="btn btn-primary btn-sm" href="{% url 'circle-create' %}"
      <i class="bi bi-plus-circle"> </i>
