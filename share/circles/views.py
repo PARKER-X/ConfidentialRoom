@@ -161,8 +161,8 @@ class JoinRequestUpdateView(View):
 
             # If approved
             if join_request_status == "APPROVED":
-                ConfidentialRoom = ConfidentialRoom(circle=circle,user = join_request.user,)
-                ConfidentialRoom.save()
+                confidentialRoom = ConfidentialRoom(circle=circle,user = join_request.user,)
+                confidentialRoom.save()
 
             
             # Always delete the join reguest once they handled by organizer

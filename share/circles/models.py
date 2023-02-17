@@ -125,8 +125,9 @@ class JoinRequest(models.Model):
     
     circle = models.ForeignKey(Circle, related_name="join_requests", on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name="join_requests" , on_delete=models.CASCADE)
-    status = models.CharField(max_length=50,
-    choices=JoinRequestStatusChoices.choices,
-    default=JoinRequestStatusChoices.PENDING,)
+    status = models.CharField(
+        max_length=50,
+        choices=JoinRequestStatusChoices.choices,
+        default=JoinRequestStatusChoices.PENDING,)
     
 
