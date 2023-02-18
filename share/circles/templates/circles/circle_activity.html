@@ -22,6 +22,9 @@
                     {% if activity.remaining_eligible_ConfidentialRooms %}
 
                      {{activity.remaining_eligible_ConfidentialRooms}} 
+                     
+                     {{ activity.id }}
+                    
                         <button
                             type="button"
                             title="{% translate 'Add' %}"
@@ -69,7 +72,8 @@
                                     style="border: none;"
                                     class="badge rounded-pill bg-primary">
                                     <i class="bi bi-person">Remove</i>
-                                    {{ participant.display_name }}
+                                    {{ participant.name }} <br>
+                                    {{participant.display_name}}
                                     <i class="bi bi-x-lg"></i>
                                 </button>
                             </form> 
@@ -85,6 +89,7 @@
                                     style="border: none;"
                                     class="badge rounded-pill bg-primary">
                                     <i class="bi bi-person"></i>
+                                    
                                     {{ participant.display_name }}
                                     <i class="bi bi-x-lg"></i>
                                 </button>
