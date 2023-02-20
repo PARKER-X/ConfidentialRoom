@@ -57,7 +57,7 @@
                         </button>
                     </form>
                 {% endif %}
-
+                <p> Participant list </p>
                 {% if activity.participants.count %}
                     {% for participant in activity.participants.all %}
                     
@@ -97,9 +97,11 @@
                             </form>
                         {% else %}
                             <!-- display participant without remove button by default -->
+                            
                             <span class="badge rounded-pill bg-primary">
                                 <i class="bi bi-person"></i>
-                                {{ participant.name }}
+                                
+                                {{ participant}}
                             </span>
                         {% endif %}
 

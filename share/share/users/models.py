@@ -16,6 +16,14 @@ class User(AbstractUser):
     first_name = None  # type: ignore
     last_name = None  # type: ignore
 
+    @property
+    def is_care_circle_organizer(self):
+        user_is_care_circle_organizer = self.ConfidentialRooms_through.filter(
+            is_organizer=True,
+        ).exists()
+
+        return user_is_care_circle_organizer
+        
     def get_absolute_url(self):
         """Get url for user's detail view.
 
@@ -24,3 +32,6 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+    
+

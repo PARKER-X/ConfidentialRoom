@@ -16,13 +16,13 @@
      {{obj.name}}
      {% endfor %} {% endcomment %}
 
-     {% if not user.is_care_circle_organizer %}
+     {% comment %} {% if not user.is_care_circle_organizer %} {% endcomment %}
      <a class="btn btn-primary btn-sm" href="{% url 'circle-create' %}"
      <i class="bi bi-plus-circle"> </i>
      {% translate "Add circle" %}
 </a>
 
-     {% endif %}
+     {% comment %} {% endif %} {% endcomment %}
 
 </h1>
 

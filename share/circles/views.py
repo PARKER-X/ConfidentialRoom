@@ -28,7 +28,7 @@ class CircleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     ]
 
 
-    def get_form(self, form_class: None):
+    def get_form(self, form_class= None):
         form = super().get_form(form_class)
         form.fields["name"].widget.attrs.update({"autofocus":"autofocus"})
 
@@ -38,7 +38,7 @@ class CircleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         circle = form.save()
 
         confidental = ConfidentialRoom(
-            circle = Circle,
+            circle = circle,
             user = self.request.user,
             is_organizer = True,
         )
