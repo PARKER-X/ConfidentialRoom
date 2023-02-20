@@ -60,7 +60,7 @@
 
                 {% if activity.participants.count %}
                     {% for participant in activity.participants.all %}
-                    {% comment %} {{participant}} {% endcomment %}
+                    
                         {% if user in circle.organizers %}
                             <!-- group organizers can remove other participants -->
                              <form action="{% url 'activity-remove-participant' activity.id %}" method="post" style="display: inline;">
@@ -71,9 +71,9 @@
                                     title="{% translate 'Remove participant' %}"
                                     style="border: none;"
                                     class="badge rounded-pill bg-primary">
-                                    <i class="bi bi-person">Remove</i>
-                                    {{ participant.name }} <br>
-                                    {{participant.display_name}}
+                                    <i class="bi bi-person"> {{ participant }}Remove</i>
+                                     <br>
+                                    
                                     <i class="bi bi-x-lg"></i>
                                 </button>
                             </form> 
@@ -90,9 +90,10 @@
                                     class="badge rounded-pill bg-primary">
                                     <i class="bi bi-person"></i>
                                     
-                                    {{ participant.display_name }}
-                                    <i class="bi bi-x-lg"></i>
+                                    
+                                    <i class="bi bi-x-lg">   Remove </i>
                                 </button>
+                                
                             </form>
                         {% else %}
                             <!-- display participant without remove button by default -->
