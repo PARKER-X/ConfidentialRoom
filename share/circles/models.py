@@ -11,7 +11,6 @@ from django.urls import reverse
 
 
 
-
 # This method will return the currently active user model
 User = get_user_model()
 
