@@ -86,6 +86,10 @@
 
         {% endif %}
 
+
+    <!-- Chating Application Here -->
+
+    
     </div>
 
     
@@ -111,7 +115,7 @@
             {% if request.user in circle.organizers.all %}
             <button type="button" class="btn btn-sm btn-outline-primary rounded-circle" data-bs-toggle="modal"
                 data-bs-target="#add-companion-modal" title="{% translate 'Add Members' %}">
-                <i class="bi bi-plus-lg"> Add </i>
+                <i class="bi bi-plus-lg">  </i>
             </button>
             {% endif %}
         </h2> 
@@ -151,7 +155,7 @@
     {% include "circles/circle_invite_modal.html" %}
 
 
-
+   
     {% endblock content %}
 
 

@@ -83,6 +83,7 @@ DJANGO_APPS = [
     "activities",
     "circles",
     'easy_thumbnails',
+    'chat',
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -91,6 +92,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     'django_bootstrap_icons',
+    'channels',
 ]
 
 LOCAL_APPS = [
