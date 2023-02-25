@@ -93,6 +93,8 @@ class CircleDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
 
         context["activities_page"] = activities_page
 
+        
+
         return context
 
 
