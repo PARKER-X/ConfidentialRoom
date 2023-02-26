@@ -15,7 +15,7 @@ from django.utils.translation import gettext as _
 
 
 #  App Import
-from .models import Circle, JoinRequest, ConfidentialRoom
+from .models import Circle, JoinRequest, ConfidentialRoom, Message
 from activities.forms import ActivityModelForm
 
 # Create your views here.
@@ -93,7 +93,12 @@ class CircleDetailView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
 
         context["activities_page"] = activities_page
 
-        
+        room = Circle.objects.get(id=self.kwargs["pk"])
+        messages = Message.objects.filter(room=room)[0:25]
+
+        context["room"] = room
+        context["messages"] = messages
+
 
         return context
 
@@ -208,4 +213,3 @@ class CircleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return HttpResponseRedirect(circle.get_absolute_url())
 
 
-    
